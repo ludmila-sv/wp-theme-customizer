@@ -1,0 +1,490 @@
+/* -----------------------------------------------------------------------------
+
+	TABLE OF CONTENTS
+
+	1. General
+	2. Components
+	3. Sidebar
+	4. Elements
+
+----------------------------------------------------------------------------- */
+
+body .editor-styles-wrapper {
+
+/* -----------------------------------------------------------------------------
+
+    1. GENERAL
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		COLORS
+	-------------------------------------------------------------------------- */
+
+	// Accent
+	$accent1: var(--pf-color--accent);// #1a78b6; // main accent color
+
+	// General
+	$body-bg: var(--pf-color--body--bg);// #fff;
+	$body-font: var(--pf-color--body--font);// #162839;
+	$body-link: var(--pf-color--body--link);// #0f95b7;
+
+	// Gray
+	$xx-soft-gray: var(	--pf-color--light);// #f2f2f2;
+	$x-soft-gray: var(--pf-color--light--gray);// #e8ecf0;
+	$soft-gray: var(--pf-color--middle--gray);// #cad0d5;
+	$gray: var(--pf-color--gray);// #a5a5a5;
+	$dark-gray: var(--pf-color--dark--gray);// #2a4258;
+
+	// Header
+	$header-overlay: var(--pf-color--header--overlay);// #2a4258;
+	$header-font: var(--pf-color--header--font);// #FFF;
+	$header-navbar-bg: transparent;
+	$header-navbar-scrolled-bg: var(--pf-color--header--navbar--scrolled--bg);// #2a4258;
+	$header-submenu-bg: var(--pf-color--header--submenu--bg);// #2a4258;
+	$header-submenu-font: var(--pf-color--header--submenu--font);// #FFF;
+
+	// Core
+	$core-bg: #FFF;
+
+	// Footer
+	$footer-bg: var(--pf-color--footer--bg);// #2a4258;
+	$footer-title: var(--pf-color--footer--title);// #fff;;
+	$footer-font: var(--pf-color--footer--font);// #fff;
+	$footer-top-bg: var(--pf-color--footer--top--bg);// #2a4258;
+	$footer-menu-link: var(--pf-color--footer--menu--link);// #fff;
+
+	/* -------------------------------------------------------------------------
+		MIXINS
+	-------------------------------------------------------------------------- */
+
+	// Alert message
+	@mixin c-alert-message { color: #265e88; background-color: #e1edf9; }
+
+	// Box shadow
+	@mixin box-shadow ( $shadow1, $shadow2 : false ) {
+		$params : $shadow1;
+		@if $shadow2 { $params : $shadow1, $shadow2; }
+		box-shadow: $params;
+	}
+
+	// Button
+	@mixin c-button { color: #FFF; background-color: $accent1;
+    	&:hover { @include box-shadow( inset 0 0 0 50px rgba( #FFF, 0.15 ) ); }
+    	&:active { @include box-shadow( none ); }
+	}
+
+	// Horizontal gradient
+	@mixin horizontal-gradient( $from, $to ) {
+		background-image: -webkit-gradient( linear, left top, right top, from( $from ), to( $to ) );
+		background-image: -webkit-linear-gradient( left, $from, $to );
+		background-image:    -moz-linear-gradient( left, $from, $to );
+		background-image:      -o-linear-gradient( left, $from, $to );
+		background-image:         linear-gradient( to right, $from, $to );
+	}
+
+	// Link decor
+	@mixin link-decor ( $init : 0, $hover : 2px, $active : 0, $color : $body-link ) {
+		@include box-shadow( 0 $init 0 0 $color );
+		&:hover { @include box-shadow( 0 $hover 0 0 $color ); }
+		&:active { @include box-shadow( 0 $active 0 0 $color ); }
+	}
+
+	// Vertical gradient
+	@mixin vertical-gradient( $from, $to ) {
+		background-image: -webkit-gradient( linear, left top, left bottom, from( $from ), to( $to ) );
+		background-image: -webkit-linear-gradient( top, $from, $to );
+		background-image:    -moz-linear-gradient( top, $from, $to );
+		background-image:      -o-linear-gradient( top, $from, $to );
+		background-image:         linear-gradient( to bottom, $from, $to );
+	}
+
+	/* -------------------------------------------------------------------------
+        TYPOGRAPHY
+	------------------------------------------------------------------------- */
+
+	& { color: $body-font; background-color: $body-bg; }
+	a { color: $body-link; }
+	abbr { border-color: $body-font; }
+	button { color: $body-font; }
+	code { border-color: $x-soft-gray; }
+	pre { color: $gray; background-color: $xx-soft-gray; }
+
+	// Headings
+	h1, h2, h3, h4, h5 { color: $dark-gray; }
+	h6 { color: $gray; }
+
+	// Definition list
+	dt { color: $dark-gray; }
+
+	/* -------------------------------------------------------------------------
+		FORMS
+	------------------------------------------------------------------------- */
+
+	label { color: $gray; }
+	input, select, textarea { color: $body-font; background-color: $x-soft-gray; }
+	input::placeholder, select::placeholder, textarea::placeholder { color: rgba( $body-font, 0.8 ); }
+
+	/* -------------------------------------------------------------------------
+		ACCESSIBILITY
+	------------------------------------------------------------------------- */
+
+	body.lsvr-using-keyboard *:focus,
+	body.lsvr-using-keyboard *:active { outline-color: #FF0000; }
+
+	/* -------------------------------------------------------------------------
+        WORDPRESS
+    ------------------------------------------------------------------------- */
+
+    .wp-block-separator { border-color: $x-soft-gray; }
+
+	// Blockquote
+	.wp-block-quote { border-color: $x-soft-gray; }
+	.wp-block-quote cite { color: $gray; }
+
+	// Table
+	.wp-block-table.is-style-regular td { border-color: $x-soft-gray; }
+	.wp-block-table.is-style-stripes tr:nth-child( 2n+1 ) { background-color: $xx-soft-gray; }
+	.wp-block-table.is-style-stripes { border-bottom-color: $x-soft-gray; }
+
+
+/* -----------------------------------------------------------------------------
+
+	2. COMPONENTS
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+        ALERT MESSAGE
+    ------------------------------------------------------------------------- */
+
+    .c-alert-message { @include c-alert-message; }
+    .c-alert-message--success { color: #74aa7b; background-color: #eaf2eb; }
+
+	/* -------------------------------------------------------------------------
+        BUTTON
+    ------------------------------------------------------------------------- */
+
+    .c-button { @include c-button; }
+
+	/* -------------------------------------------------------------------------
+		POST RATING
+	------------------------------------------------------------------------- */
+
+	.c-post-rating__likes,
+	.c-post-rating__sum--positive { color: $accent1; }
+	.c-post-rating__dislikes,
+	.c-post-rating__sum--negative { color: $gray; }
+
+	/* -------------------------------------------------------------------------
+        SEARCH FORM
+    ------------------------------------------------------------------------- */
+
+    .c-search-form__button { color: $accent1; }
+
+	/* -------------------------------------------------------------------------
+		SPINNER
+	------------------------------------------------------------------------- */
+
+	.c-spinner { background-color: $gray; }
+
+
+/* -----------------------------------------------------------------------------
+
+    3. SIDEBAR
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		WIDGETS
+	------------------------------------------------------------------------- */
+
+	#sidebar .widget { border-color: $x-soft-gray; }
+	.widget__title { color: $gray; }
+	.widget__more-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+
+	// WordPress
+
+		// Archive
+		.widget_archive { color: $gray;
+			a { color: $body-link; @include link-decor; }
+		}
+
+		// Calendar
+		.widget_calendar {
+			tfoot a { @include link-decor; }
+		}
+
+		// Categories
+		.widget_categories { color: $gray;
+			a { @include link-decor; }
+		}
+
+		// Meta
+		.widget_meta {
+			a { @include link-decor; }
+		}
+
+		// Menu
+		.widget_nav_menu {
+			a { @include link-decor; }
+		}
+
+		// Pages
+		.widget_pages {
+			a { @include link-decor; }
+		}
+
+		// Recent comments
+		.widget_recent_comments { color: $gray;
+			.comment-author-link { color: $body-font; }
+			a { @include link-decor; }
+		}
+
+		// Recent posts
+		.widget_recent_entries {
+			.post-date { color: $gray; }
+			a { @include link-decor; }
+		}
+
+		// RSS
+		.widget_rss {
+			.rss-date { color: $gray; }
+			a { @include link-decor; }
+		}
+
+		// Tagcloud
+		.widget_tag_cloud {
+			.tag-cloud-link { @include link-decor; }
+
+			.tag-link-count { color: $gray; }
+		}
+
+	// Lore
+
+		// Lore CTA
+		.lsvr-lore-cta-widget .widget__title { color: $dark-gray; }
+		.lsvr-lore-cta-widget .widget__inner { background-color: $x-soft-gray; }
+
+		// Lore KB Category
+		.lsvr-lore-kba-category-widget .widget__inner { border-color: $x-soft-gray; }
+		.lsvr-lore-kba-category-widget__icon { color: $accent1; }
+		.lsvr-lore-kba-category-widget__title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+		.lsvr-lore-kba-category-widget__item-link { @include link-decor; }
+
+	// LSVR
+
+		// LSVR Definition list
+		.lsvr-definition-list-widget__item-title,
+		.lsvr-definition-list-widget__item-text { border-color: $x-soft-gray; }
+		.lsvr-definition-list-widget__item-text-link { @include link-decor; }
+
+		// LSVR Posts
+		.lsvr-post-list-widget__item-title-link { @include link-decor; }
+		.lsvr-post-list-widget__item-date,
+		.lsvr-post-list-widget__item-category { color: $gray; }
+		.lsvr-post-list-widget__item-category-link { color: $gray; @include link-decor( 1px, 2px, 1px, $soft-gray); }
+
+		// LSVR Featured Post
+		.lsvr-post-featured-widget__title-link { @include link-decor; }
+		.lsvr-post-featured-widget__date,
+		.lsvr-post-featured-widget__category { color: $gray; }
+		.lsvr-post-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray); color: $gray; }
+		.lsvr-post-featured-widget__excerpt-more-link { @include link-decor; }
+
+		// Category widget
+		.lsvr_kba-categories-widget,
+		.lsvr_faq-categories-widget {
+			a { @include link-decor; }
+		}
+
+		// LSVR KB Tree
+		.lsvr_kba-tree-widget__item-icon { color: $accent1; }
+		.lsvr_kba-tree-widget__list--level-1 .lsvr_kba-tree-widget__item-icon { color: $soft-gray; }
+		.lsvr_kba-tree-widget__item-link { @include link-decor; }
+		.lsvr_kba-tree-widget__submenu-toggle { color: $dark-gray; border-color: $soft-gray; }
+		.lsvr_kba-tree-widget__submenu-toggle--active,
+		.lsvr_kba-tree-widget__submenu-toggle:hover { color: #FFF; background-color: $accent1; border-color: $accent1; }
+
+			// Current item
+			.lsvr_kba-tree-widget__item--current > .lsvr_kba-tree-widget__item-inner { background-color: $x-soft-gray; border-color: $accent1;
+				.lsvr_kba-tree-widget__item-icon { color: $accent1; }
+			}
+
+		.lsvr_kba-tree-widget__item-count { color: $soft-gray; }
+
+		// LSVR KB Articles
+		.lsvr_kba-list-widget__item-icon { color: $accent1; }
+		.lsvr_kba-list-widget__item-title-link { @include link-decor; }
+		.lsvr_kba-list-widget__item-date { color: $gray; }
+		.lsvr_kba-list-widget__item-category { color: $gray; }
+		.lsvr_kba-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR Featured KBA
+		.lsvr_kba-featured-widget__title-link { @include link-decor; }
+		.lsvr_kba-featured-widget__date { color: $gray; }
+		.lsvr_kba-featured-widget__category { color: $gray; }
+		.lsvr_kba-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR FAQ
+		.lsvr_faq-list-widget__item-title-link { @include link-decor; }
+		.lsvr_faq-list-widget__item-category { color: $gray; }
+		.lsvr_faq-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR Featured FAQ
+		.lsvr_faq-featured-widget__title-link { @include link-decor; }
+		.lsvr_faq-featured-widget__category { color: $gray; }
+		.lsvr_faq-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+	// bbPress
+
+	    // bbpress Search
+		.widget_display_search {
+			.button { @include c-button; }
+		}
+
+	    // bbpress Forum List
+		.widget_display_forums {
+			a { @include link-decor; }
+		}
+
+	    // bbpress Login
+		.bbp_widget_login {
+			.bbp-login-links a { @include link-decor; }
+		}
+
+	    // bbpress Recent Replies
+		.widget_display_replies { color: $gray;
+			a { @include link-decor; }
+			li div { color: $gray; }
+		}
+
+	    // bbpress Recent Topics
+		.widget_display_topics { color: $gray;
+			a { @include link-decor; }
+			li div { color: $gray; }
+		}
+
+	    // bbpress Statistics
+		.widget_display_stats {
+			dl > dt { color: $gray; }
+		}
+
+	    // bbpress Topic List
+		.widget_display_views {
+			a { @include link-decor; }
+		}
+
+
+/* -----------------------------------------------------------------------------
+
+    4. ELEMENTS
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		FAQ
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-faq__post { border-color: $x-soft-gray; }
+	.lsvr-lore-faq__post-permalink-link { @include link-decor(); }
+	.lsvr-lore-faq__post-footer { color: $gray; }
+	.lsvr-lore-faq__post-footer-permalink-link,
+	.lsvr-lore-faq__post-footer .post__term-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+	.lsvr-lore-faq__footer:before { border-color: $x-soft-gray; }
+	.lsvr-lore-faq__more { background-color: $core-bg; }
+
+		/* Expandable */
+		.lsvr-lore-faq--expandable {
+
+			.lsvr-lore-faq__post--expanded .lsvr-lore-faq__post-inner { border-color: $accent1; }
+			.lsvr-lore-faq__post-header-toggle-icon { color: $gray; }
+
+		}
+
+	/* -------------------------------------------------------------------------
+		KNOWLEDGE BASE
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-knowledge-base__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-knowledge-base__title,
+	.lsvr-lore-knowledge-base__header-more { background-color: $core-bg; }
+
+	/* -------------------------------------------------------------------------
+		POSTS
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-posts__post-meta { color: $gray; }
+	.lsvr-lore-posts .post__term-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+	.lsvr-lore-posts__post-title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+	.lsvr-lore-posts__post-permalink-link { @include link-decor( 1px, 2px, 1px ); }
+	.lsvr-lore-posts__footer:before { border-color: $x-soft-gray; }
+	.lsvr-lore-posts__more { background-color: $core-bg; }
+
+	/* -------------------------------------------------------------------------
+		SIDEBAR
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-sidebar__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-sidebar__title,
+	.lsvr-lore-sidebar__header-more { background-color: $core-bg; }
+	.lsvr-lore-sidebar--has-borders .widget__inner { border-color: $x-soft-gray; }
+
+	/* -------------------------------------------------------------------------
+		SITEMAP
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-sitemap__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-sitemap__title,
+	.lsvr-lore-sitemap__header-more { background-color: $core-bg; }
+	.lsvr-lore-sitemap__item--level-0 > .lsvr-lore-sitemap__item-inner { border-color: $x-soft-gray; }
+	.lsvr-lore-sitemap__item-icon { color: $accent1; }
+	.lsvr-lore-sitemap__item-link { @include link-decor; }
+	.lsvr-lore-sitemap__item-title .lsvr-lore-sitemap__item-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+
+	/* -------------------------------------------------------------------------
+		TABLE OF CONTENTS
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-toc__title:before { border-color: $x-soft-gray; }
+	.lsvr-lore-toc__title-inner { background-color: $core-bg; }
+	.lsvr-lore-toc__item-link { @include link-decor; }
+
+	/* -------------------------------------------------------------------------
+		LSVR ELEMENTS
+	------------------------------------------------------------------------- */
+
+	// Alert message
+	.lsvr-alert-message { color: #265e88; background-color: #e1edf9; }
+	.lsvr-alert-message--warning { color: #d40041; background-color: #ffdfe0; }
+	.lsvr-alert-message--success { color: #499143; background-color: #d4fbd3; }
+
+    // Button
+	.lsvr-button { @include c-button; }
+
+    // Counter
+    .lsvr-counter__number { color: $accent1; }
+
+    // CTA
+    .lsvr-cta { border-color: $x-soft-gray; }
+    .lsvr-cta__button-link { @include c-button; }
+
+    // Feature
+    .lsvr-feature__icon { color: #FFF; background-color: $gray; }
+    .lsvr-feature__title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+    .lsvr-feature__more-link { @include link-decor( 1px, 2px, 1px ); }
+
+    // Pricing table
+    .lsvr-pricing-table { border-color: $x-soft-gray; }
+    .lsvr-pricing-table__title { color: #FFF; background-color: $accent1; }
+    .lsvr-pricing-table__price-value { color: $accent1; }
+    .lsvr-pricing-table__price-description { color: $gray; }
+    .lsvr-pricing-table__text { border-color: $x-soft-gray; }
+    .lsvr-pricing-table__button-link { @include c-button; }
+
+    // Progress bar
+    .lsvr-progress-bar__bar { background-color: $x-soft-gray; }
+    .lsvr-progress-bar__bar-inner { background-color: $accent1; }
+
+
+} // Close .editor-styles-wrapper

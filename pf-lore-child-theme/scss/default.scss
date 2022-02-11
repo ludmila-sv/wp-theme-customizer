@@ -1,0 +1,1176 @@
+/* -----------------------------------------------------------------------------
+
+	TABLE OF CONTENTS
+
+	1. General
+	2. Components
+	3. Header
+	4. Core
+	5. Sidebar
+	6. Footer
+	7. Elements
+	8. Other
+	9. Responsive
+
+----------------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------------------------
+
+    1. GENERAL
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		COLORS
+	-------------------------------------------------------------------------- */
+
+	// Accent
+	$accent1: var(--pf-color--accent);// #1a78b6; // main accent color
+
+	// General
+	$body-bg: var(--pf-color--body--bg);// #fff;
+	$body-font: var(--pf-color--body--font);// #162839;
+	$body-link: var(--pf-color--body--link);// #0f95b7;
+
+	// Gray
+	$xx-soft-gray: var(	--pf-color--light);// #f2f2f2;
+	$x-soft-gray: var(--pf-color--light--gray);// #e8ecf0;
+	$soft-gray: var(--pf-color--middle--gray);// #cad0d5;
+	$gray: var(--pf-color--gray);// #a5a5a5;
+	$dark-gray: var(--pf-color--dark--gray);// #2a4258;
+
+	// Header
+	$header-overlay: var(--pf-color--header--overlay);// #2a4258;
+	$header-font: var(--pf-color--header--font);// #FFF;
+	$header-navbar-bg: transparent;
+	$header-navbar-scrolled-bg: var(--pf-color--header--navbar--scrolled--bg);// #2a4258;
+	$header-submenu-bg: var(--pf-color--header--submenu--bg);// #2a4258;
+	$header-submenu-font: var(--pf-color--header--submenu--font);// #FFF;
+
+	// Core
+	$core-bg: #FFF;
+
+	// Footer
+	$footer-bg: var(--pf-color--footer--bg);// #2a4258;
+	$footer-title: var(--pf-color--footer--title);// #fff;;
+	$footer-font: var(--pf-color--footer--font);// #fff;
+	$footer-top-bg: var(--pf-color--footer--top--bg);// #2a4258;
+	$footer-menu-link: var(--pf-color--footer--menu--link);// #fff;
+
+	/* -------------------------------------------------------------------------
+		MIXINS
+	-------------------------------------------------------------------------- */
+
+	// Alert message
+	@mixin c-alert-message { color: #265e88; background-color: #e1edf9; }
+
+	// Box shadow
+	@mixin box-shadow ( $shadow1, $shadow2 : false ) {
+		$params : $shadow1;
+		@if $shadow2 { $params : $shadow1, $shadow2; }
+		box-shadow: $params;
+	}
+
+	// Button
+	@mixin c-button { color: #FFF; background-color: $accent1;
+    	&:hover { @include box-shadow( inset 0 0 0 50px rgba( #FFF, 0.15 ) ); }
+    	&:active { @include box-shadow( none ); }
+	}
+
+	// Horizontal gradient
+	@mixin horizontal-gradient( $from, $to ) {
+		background-image: -webkit-gradient( linear, left top, right top, from( $from ), to( $to ) );
+		background-image: -webkit-linear-gradient( left, $from, $to );
+		background-image:    -moz-linear-gradient( left, $from, $to );
+		background-image:      -o-linear-gradient( left, $from, $to );
+		background-image:         linear-gradient( to right, $from, $to );
+	}
+
+	// Link decor
+	@mixin link-decor ( $init : 0, $hover : 2px, $active : 1px, $color : $body-link ) {
+		@include box-shadow( 0 $init 0 0 $color );
+		&:hover { @include box-shadow( 0 $hover 0 0 $color ); }
+		&:active { @include box-shadow( 0 $active 0 0 rgba( $color, 0.5 ) ); }
+	}
+
+	// Vertical gradient
+	@mixin vertical-gradient( $from, $to ) {
+		background-image: -webkit-gradient( linear, left top, left bottom, from( $from ), to( $to ) );
+		background-image: -webkit-linear-gradient( top, $from, $to );
+		background-image:    -moz-linear-gradient( top, $from, $to );
+		background-image:      -o-linear-gradient( top, $from, $to );
+		background-image:         linear-gradient( to bottom, $from, $to );
+	}
+
+	/* -------------------------------------------------------------------------
+        TYPOGRAPHY
+	------------------------------------------------------------------------- */
+
+	body { color: $body-font; background-color: $body-bg; }
+	a { color: $body-link; }
+	abbr { border-color: $body-font; }
+	button { color: $body-font; }
+	code { border-color: $x-soft-gray; }
+	pre { color: $gray; background-color: $xx-soft-gray; }
+
+	// Headings
+	h1, h2, h3, h4, h5 { color: $dark-gray; }
+	h6 { color: $gray; }
+
+	// Definition list
+	dt { color: $dark-gray; }
+
+	/* -------------------------------------------------------------------------
+		FORMS
+	------------------------------------------------------------------------- */
+
+	label { color: $gray; }
+	input, select, textarea { color: $body-font; background-color: $x-soft-gray; }
+	input::placeholder, select::placeholder, textarea::placeholder { color: rgba( $body-font, 0.8 ); }
+
+	/* -------------------------------------------------------------------------
+		ACCESSIBILITY
+	------------------------------------------------------------------------- */
+
+	body.lsvr-using-keyboard *:focus,
+	body.lsvr-using-keyboard *:active { outline-color: #FF0000; }
+
+	/* -------------------------------------------------------------------------
+        WORDPRESS
+    ------------------------------------------------------------------------- */
+
+    .wp-block-separator { border-color: $x-soft-gray; }
+
+	// Blockquote
+	.wp-block-quote { border-color: $x-soft-gray; }
+	.wp-block-quote cite { color: $gray; }
+
+	// Table
+	.wp-block-table.is-style-regular td { border-color: $x-soft-gray; }
+	.wp-block-table.is-style-stripes tr:nth-child( 2n+1 ) { background-color: $xx-soft-gray; }
+	.wp-block-table.is-style-stripes { border-bottom-color: $x-soft-gray; }
+
+
+/* -----------------------------------------------------------------------------
+
+	2. COMPONENTS
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+        ALERT MESSAGE
+    ------------------------------------------------------------------------- */
+
+    .c-alert-message { @include c-alert-message; }
+    .c-alert-message--success { color: #74aa7b; background-color: #eaf2eb; }
+
+	/* -------------------------------------------------------------------------
+        BUTTON
+    ------------------------------------------------------------------------- */
+
+    .c-button { @include c-button; }
+
+	/* -------------------------------------------------------------------------
+		POST RATING
+	------------------------------------------------------------------------- */
+
+	.c-post-rating__likes,
+	.c-post-rating__sum--positive { color: $accent1; }
+	.c-post-rating__dislikes,
+	.c-post-rating__sum--negative { color: $gray; }
+
+	/* -------------------------------------------------------------------------
+        SEARCH FORM
+    ------------------------------------------------------------------------- */
+
+    .c-search-form__button { color: $accent1; }
+
+	/* -------------------------------------------------------------------------
+		SPINNER
+	------------------------------------------------------------------------- */
+
+	.c-spinner { background-color: $gray; }
+
+
+/* -----------------------------------------------------------------------------
+
+	3. HEADER
+
+----------------------------------------------------------------------------- */
+
+#header { color: $header-font; background-color: #000; }
+.header__overlay { background-color: $header-overlay; }
+
+	/* -------------------------------------------------------------------------
+        HEADER NAVBAR
+    ------------------------------------------------------------------------- */
+
+    .header-navbar { background-color: $header-navbar-bg; }
+    .header-navbar--scrolled { background-color: $header-navbar-scrolled-bg; }
+
+    	// Header branding
+    	.header-title__link { @include link-decor( 0, 2px, 1px, $header-font ); color: $header-font; }
+
+    	// Header menu
+    	.header-menu__submenu-toggle { color: #FFF; border-color: rgba( #FFF, 0.5 ); }
+
+			// Top Level
+			.header-menu__item-link--level-0 { color: $header-font;  }
+			.current-menu-ancestor > .header-menu__item-link--level-0,
+			.current-menu-parent > .header-menu__item-link--level-0,
+			.current-menu-item > .header-menu__item-link--level-0 { border-color: $header-font; }
+			.header-menu__item--hover .header-menu__item-link--level-0,
+			.header-menu__item-link--level-0:hover { color: #000; background-color: $header-font; border-color: $header-font; }
+
+			// Dropdown menu
+			.header-menu__item--dropdown {
+				.header-menu__submenu--level-0:before { border-bottom-color: $header-submenu-bg; }
+				.header-menu__submenu .header-menu__item { color: $header-submenu-font; background-color: $header-submenu-bg; border-color: rgba( #FFF, 0.05 ); }
+				.header-menu__submenu .header-menu__item-link { color: $header-submenu-font; }
+				.header-menu__submenu .header-menu__item-link:hover { background-color: $accent1; }
+			}
+
+			// Megamenu
+			.header-menu__item--megamenu {
+
+				.header-menu__submenu--level-0 { color: $header-submenu-font; background-color: $header-submenu-bg; }
+				.header-menu__submenu .header-menu__item-link { @include link-decor( 0, 2px, 1px, $header-submenu-font ); color: $header-submenu-font; }
+
+			}
+
+		// Header navbar search
+		.header-navbar-search__toggle { color: $header-font; }
+		.header-navbar-search__toggle:hover { color: rgba( $header-font, 0.8 ); }
+		.header-navbar-search__toggle:active { color: rgba( $header-font, 0.7 ); }
+		.header-navbar-search__toggle--active { color: $dark-gray; background-color: #FFF; }
+		.header-navbar-search__toggle--active:hover { color: rgba( $dark-gray, 0.8 ); }
+		.header-navbar-search__toggle--active:active { color: rgba( $dark-gray, 0.7 ); }
+		.header-navbar-search__popup:before { border-bottom-color: #FFF; }
+
+    	// Header languages
+    	.header-languages { border-color: rgba( #FFF, 0.15 ); }
+    	.header-languages__item-link { color: $header-font; color: rgba( $header-font, 0.5 ); }
+    	.header-languages__item-link:hover { color: $header-font; }
+    	.header-languages__item-link:active { color: rgba( $header-font, 0.8 ); }
+    	.header-languages__item--active .header-languages__item-link { @include box-shadow( 0 2px 0 0 $header-font ); color: $header-font; }
+
+    	// Navbar toggle
+    	.header-navbar__toggle { color: $header-font; border-color: $header-font; }
+    	.header-navbar__toggle--active { color: $accent1; background-color: $header-font; }
+
+	/* -------------------------------------------------------------------------
+        HEADER SEARCH
+    ------------------------------------------------------------------------- */
+
+	    // Input
+	    .header-search-form__input { color: $accent1; background-color: #FFF; }
+	    .header-search-form__input::placeholder { color: rgba( $body-font, 0.8 ); }
+	    .header-search-form__submit { color: $accent1; }
+
+	    // Panel
+	    .header-search-form__panel { @include box-shadow( 0 2px 10px rgba( #000, .1 ) ); color: $body-font; background-color: #FFF; border-color: $accent1; }
+	    .header-search-form__filter-title { color: $gray; }
+	    .header-search-form__filter-label { color: $body-font; border-color: $x-soft-gray; }
+	    .header-search-form__filter-label:hover { border-color: $accent1; }
+	    .header-search-form__filter-label--active { color: #FFF; background-color: $accent1; border-color: $accent1; }
+	    .header-search-form__results { border-color: $x-soft-gray; }
+	    .header-search-form__results-item-icon { color: $gray; }
+	    .header-search-form__results-item--active .header-search-form__results-item-link,
+	    .header-search-form__results-item-link:hover { background-color: $x-soft-gray; }
+	    .header-search-form__results-more { border-color: $x-soft-gray; }
+	    .header-search-form__results-more-link { @include link-decor; }
+
+	    // Keywords
+	    .header-search-form__keywords-inner { color: #FFF; background-color: $accent1; }
+	    .header-search-form__keywords-inner > a { @include link-decor( 1px, 2px, 1px, #FFF ); color: #FFF; }
+
+
+/* -----------------------------------------------------------------------------
+
+	4. CORE
+
+----------------------------------------------------------------------------- */
+
+.core--wide,
+.core--fullwidth,
+.core__columns--wide { background-color: $core-bg; }
+.core__columns-bg { background-color: $core-bg; }
+.core__columns-main:before,
+.core__columns-sidebar:before { background-color: $x-soft-gray; }
+
+	/* -------------------------------------------------------------------------
+        PAGE HEADER
+    ------------------------------------------------------------------------- */
+
+	// Breadcrumbs
+	.breadcrumbs { color: $gray; }
+	.breadcrumbs__link { @include link-decor( 0, 2px, 1px, $gray ); color: $gray; }
+
+	/* -------------------------------------------------------------------------
+		POST COMMON COMPONENTS
+	------------------------------------------------------------------------- */
+
+	// Post author bio
+	.post-author { border-color: $x-soft-gray; }
+	.post-author__name { color: $dark-gray; }
+	.post-author__badge { color: $accent1; }
+	.post-author__more-link { @include link-decor; }
+
+	// Post navigation
+	.post-navigation { border-color: $x-soft-gray; }
+	.post-navigation__title-link { @include link-decor( 0, 2px, 1px, $gray ); color: $gray; }
+	.post-navigation__link { @include link-decor;  }
+
+	// Post comments
+	.post-comments { border-color: $x-soft-gray; }
+	.comment-notes { @include c-alert-message; }
+	.post-comments__list {
+		.pingback,
+		.comment { border-color: $x-soft-gray; }
+		.comment-author { color: $dark-gray; }
+		.comment-author .url { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+		.comment-metadata { color: $gray; }
+		.comment-metadata > a { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+		.comment-edit-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+		.comment-reply-link { @include link-decor( 0, 1px, 0, $accent1 ); color: $accent1; }
+	}
+
+	// Comment form
+	.post-comments {
+		.form-submit .submit { @include c-button; }
+	}
+	.logged-in-as { @include c-alert-message; }
+	.logged-in-as > a { @include link-decor; }
+
+	// Default WP pagination
+	.navigation.pagination { border-color: $x-soft-gray;
+		.page-numbers.current { color: #FFF; background-color: $accent1; }
+		a.page-numbers:hover { background-color: $x-soft-gray; }
+		a.page-numbers:active { background-color: $xx-soft-gray; }
+		.dots { color: $soft-gray; }
+	}
+
+		// Comments pagination
+		ul.page-numbers {
+			.page-numbers.current { color: #FFF; background-color: $accent1; }
+			a.page-numbers:hover { background-color: $x-soft-gray; }
+			a.page-numbers:active { background-color: $xx-soft-gray; }
+		}
+
+	/* -------------------------------------------------------------------------
+		GENERAL POST ARCHIVE
+	------------------------------------------------------------------------- */
+
+	.general-post-archive {
+
+		.post-archive__count { color: $gray; }
+		.post:hover { background-color: $x-soft-gray; }
+		.post__icon { color: $accent1; }
+
+		// Header
+		.post__title-link { @include link-decor; }
+
+		// Foter
+		.post__date { color: $gray; }
+
+	}
+
+	/* -------------------------------------------------------------------------
+		BLOG
+	------------------------------------------------------------------------- */
+
+	// Archive and single
+	.blog-post-page {
+
+		// Meta
+		.post__meta-item { color: $soft-gray; }
+		.post__term-link,
+		.post__meta-item-link { @include link-decor; }
+
+	}
+
+	// Post archive
+	.blog-post-archive {
+
+		// Header
+		.post__header-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+
+		// Footer
+		.post__footer:before { background-color: $x-soft-gray; }
+
+		// Date
+		.post__date { color: $gray; background-color: $core-bg; }
+		.post__date-author-link { @include link-decor; }
+
+		// Permalink
+		.post__permalink { background-color: $core-bg; }
+
+	}
+
+	// Post single
+	.blog-post-single {
+
+		// Date
+		.post__date { color: $gray; }
+		.post__date-author-link { @include link-decor; }
+
+	}
+
+	/* -------------------------------------------------------------------------
+		KNOWLEDGE BASE
+	------------------------------------------------------------------------- */
+
+	// Default archive
+	.lsvr_kba-post-archive--default {
+
+		// Post archive subcategories
+		.post-archive__subcategory-inner { border-color: $x-soft-gray; }
+		.post-archive__subcategory-icon { color: $accent1; }
+		.post-archive__subcategory-link { @include link-decor; }
+		.post-archive__subcategory-count { color: $gray; }
+
+		// Post archive count
+		.post-archive__count { color: $gray; }
+
+		// Post
+		.post:hover { background-color: $x-soft-gray; }
+		.post__icon { color: $accent1; }
+
+		// Header
+		.post__title-link { @include link-decor; }
+
+		// Foter
+		.post__date { color: $gray; }
+
+	}
+
+	// Category View archive
+	.lsvr_kba-post-archive--category-view {
+
+		.post-archive__item-inner { background-color: $core-bg; border-color: $x-soft-gray; }
+
+		// Category header
+		.post-archive__item-icon { color: $accent1; }
+		.post-archive__item-link { @include link-decor; }
+
+		// Children
+		.post-archive__item-children-wrapper-title:after { border-color: $x-soft-gray; }
+		.post-archive__item-children-wrapper-title-inner { background-color: $core-bg; }
+		.post-archive__item-child-link { @include link-decor; }
+		.post-archive__item-child-icon { color: $soft-gray; }
+		.post-archive__item-child-count { color: $soft-gray; }
+
+		// More link
+		.post-archive__item-more-link { @include link-decor; }
+
+	}
+
+	// Post single
+	.lsvr_kba-post-single {
+
+		// Attachments
+		.post-attachments { background-color: $xx-soft-gray; }
+		.post-attachments__title { color: $gray; }
+		.post-attachments__item { border-color: $x-soft-gray; }
+		.post-attachments__icon { color: $gray; }
+		.post-attachments__link { @include link-decor( 0, 1px, 0 ); }
+		.post-attachments__filesize,
+		.post-attachments__label { color: $gray; }
+
+		// Date
+		.post__date { color: $gray; }
+		.post__date-author-link { @include link-decor; }
+
+		// Meta
+		.post__meta { border-color: $x-soft-gray; }
+		.post__meta-item { color: $soft-gray; }
+		.post__term-link { @include link-decor; }
+
+		// Rating
+		.post-rating__inner:before { background-color: $x-soft-gray; }
+		.post-rating__title { background-color: $core-bg; }
+		.post-rating__controls { background-color: $core-bg; }
+		.post-rating__button { border-color: $x-soft-gray; }
+		.post-rating__button--like { color: $accent1; }
+		.post-rating__button--like:hover { border-color: $accent1; }
+		.post-rating__button--dislike { color: $gray; }
+		.post-rating__button--dislike:hover { border-color: $gray; }
+
+		// Related
+		.post-related { border-color: $x-soft-gray; }
+		.post-related__icon { color: $soft-gray; }
+		.post-related__link { @include link-decor; }
+
+	}
+
+	/* -------------------------------------------------------------------------
+		FAQ
+	------------------------------------------------------------------------- */
+
+	// Post archive
+	.lsvr_faq-post-archive {
+
+		.post { border-color: $x-soft-gray; }
+
+		// Footer
+		.post__footer { color: $gray; }
+		.post__permalink-link { @include link-decor; }
+		.post__term-link,
+		.post__footer-permalink-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+
+	}
+
+	// Expandable post archive
+	.lsvr_faq-post-archive--is-expandable {
+
+		.post--expanded .post__inner { border-color: $accent1; }
+
+		// Header
+		.post__header-toggle-icon { color: $gray; }
+
+	}
+
+	// Post single
+	.lsvr_faq-post-single {
+
+		// Meta
+		.post__meta-item { color: $soft-gray; }
+		.post__term-link { @include link-decor; }
+
+	}
+
+
+/* -----------------------------------------------------------------------------
+
+    5. SIDEBAR
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		WIDGETS
+	------------------------------------------------------------------------- */
+
+	#sidebar .widget { border-color: $x-soft-gray; }
+	.widget__title { color: $gray; }
+	.widget__more-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+
+	// WordPress
+
+		// Archive
+		.widget_archive { color: $gray;
+			a { color: $body-link; @include link-decor; }
+		}
+
+		// Calendar
+		.widget_calendar {
+			tfoot a { @include link-decor; }
+		}
+
+		// Categories
+		.widget_categories { color: $gray;
+			a { @include link-decor; }
+		}
+
+		// Meta
+		.widget_meta {
+			a { @include link-decor; }
+		}
+
+		// Menu
+		.widget_nav_menu {
+			a { @include link-decor; }
+		}
+
+		// Pages
+		.widget_pages {
+			a { @include link-decor; }
+		}
+
+		// Recent comments
+		.widget_recent_comments { color: $gray;
+			.comment-author-link { color: $body-font; }
+			a { @include link-decor; }
+		}
+
+		// Recent posts
+		.widget_recent_entries {
+			.post-date { color: $gray; }
+			a { @include link-decor; }
+		}
+
+		// RSS
+		.widget_rss {
+			.rss-date { color: $gray; }
+			a { @include link-decor; }
+		}
+
+		// Tagcloud
+		.widget_tag_cloud {
+			.tag-cloud-link { @include link-decor; }
+
+			.tag-link-count { color: $gray; }
+		}
+
+	// Lore
+
+		// Lore CTA
+		.lsvr-lore-cta-widget .widget__title { color: $dark-gray; }
+		.lsvr-lore-cta-widget .widget__inner { background-color: $x-soft-gray; }
+
+		// Lore KB Category
+		.lsvr-lore-kba-category-widget .widget__inner { border-color: $x-soft-gray; }
+		.lsvr-lore-kba-category-widget__icon { color: $accent1; }
+		.lsvr-lore-kba-category-widget__title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+		.lsvr-lore-kba-category-widget__item-link { @include link-decor; }
+
+	// LSVR
+
+		// LSVR Definition list
+		.lsvr-definition-list-widget__item-title,
+		.lsvr-definition-list-widget__item-text { border-color: $x-soft-gray; }
+		.lsvr-definition-list-widget__item-text-link { @include link-decor; }
+
+		// LSVR Posts
+		.lsvr-post-list-widget__item-title-link { @include link-decor; }
+		.lsvr-post-list-widget__item-date,
+		.lsvr-post-list-widget__item-category { color: $gray; }
+		.lsvr-post-list-widget__item-category-link { color: $gray; @include link-decor( 1px, 2px, 1px, $soft-gray); }
+
+		// LSVR Featured Post
+		.lsvr-post-featured-widget__title-link { @include link-decor; }
+		.lsvr-post-featured-widget__date,
+		.lsvr-post-featured-widget__category { color: $gray; }
+		.lsvr-post-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray); color: $gray; }
+		.lsvr-post-featured-widget__excerpt-more-link { @include link-decor; }
+
+		// Category widget
+		.lsvr_kba-categories-widget,
+		.lsvr_faq-categories-widget {
+			a { @include link-decor; }
+		}
+
+		// LSVR KB Tree
+		.lsvr_kba-tree-widget__item-icon { color: $accent1; }
+		.lsvr_kba-tree-widget__list--level-1 .lsvr_kba-tree-widget__item-icon { color: $soft-gray; }
+		.lsvr_kba-tree-widget__item-link { @include link-decor; }
+		.lsvr_kba-tree-widget__submenu-toggle { color: $dark-gray; border-color: $soft-gray; }
+		.lsvr_kba-tree-widget__submenu-toggle--active,
+		.lsvr_kba-tree-widget__submenu-toggle:hover { color: #FFF; background-color: $accent1; border-color: $accent1; }
+
+			// Current item
+			.lsvr_kba-tree-widget__item--current > .lsvr_kba-tree-widget__item-inner { background-color: $x-soft-gray; border-color: $accent1;
+				.lsvr_kba-tree-widget__item-icon { color: $accent1; }
+			}
+
+		.lsvr_kba-tree-widget__item-count { color: $soft-gray; }
+
+		// LSVR KB Articles
+		.lsvr_kba-list-widget__item-icon { color: $accent1; }
+		.lsvr_kba-list-widget__item-title-link { @include link-decor; }
+		.lsvr_kba-list-widget__item-date { color: $gray; }
+		.lsvr_kba-list-widget__item-category { color: $gray; }
+		.lsvr_kba-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR Featured KBA
+		.lsvr_kba-featured-widget__title-link { @include link-decor; }
+		.lsvr_kba-featured-widget__date { color: $gray; }
+		.lsvr_kba-featured-widget__category { color: $gray; }
+		.lsvr_kba-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR FAQ
+		.lsvr_faq-list-widget__item-title-link { @include link-decor; }
+		.lsvr_faq-list-widget__item-category { color: $gray; }
+		.lsvr_faq-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+		// LSVR Featured FAQ
+		.lsvr_faq-featured-widget__title-link { @include link-decor; }
+		.lsvr_faq-featured-widget__category { color: $gray; }
+		.lsvr_faq-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $soft-gray ); color: $gray; }
+
+	// bbPress
+
+	    // bbpress Search
+		.widget_display_search {
+			.button { @include c-button; }
+		}
+
+	    // bbpress Forum List
+		.widget_display_forums {
+			a { @include link-decor; }
+		}
+
+	    // bbpress Login
+		.bbp_widget_login {
+			.bbp-login-links a { @include link-decor; }
+		}
+
+	    // bbpress Recent Replies
+		.widget_display_replies { color: $gray;
+			a { @include link-decor; }
+			li div { color: $gray; }
+		}
+
+	    // bbpress Recent Topics
+		.widget_display_topics { color: $gray;
+			a { @include link-decor; }
+			li div { color: $gray; }
+		}
+
+	    // bbpress Statistics
+		.widget_display_stats {
+			dl > dt { color: $gray; }
+		}
+
+	    // bbpress Topic List
+		.widget_display_views {
+			a { @include link-decor; }
+		}
+
+/* -----------------------------------------------------------------------------
+
+	6. FOOTER
+
+----------------------------------------------------------------------------- */
+
+#footer { color: $footer-font; background-color: $footer-bg; }
+
+	/* -------------------------------------------------------------------------
+        FOOTER TOP
+    ------------------------------------------------------------------------- */
+
+    .footer-top { background-color: $footer-top-bg; }
+
+    	// Footer menu
+    	#footer .footer-menu a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); color: $footer-menu-link; }
+
+    	// Footer social
+    	.footer-social__item-link { color: $accent1; }
+    	.footer-social__item-link:hover { color: $footer-menu-link; }
+    	.footer-social__item-link:active { color: rgba( $footer-menu-link, 0.8 ); }
+
+
+	/* -------------------------------------------------------------------------
+        FOOTER WIDGETS
+    ------------------------------------------------------------------------- */
+
+    .footer-widgets {
+
+    	a { color: $footer-menu-link; }
+    	.c-button { color: #FFF; }
+		.widget-title,
+    	.widget__title { color: $footer-title; }
+    	.widget__more-link { @include link-decor( 0, 1px, 0, $footer-font ); color: $footer-font; }
+
+    	// WordPress
+
+			// Archive
+			.widget_archive { color: $footer-font;
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Calendar
+			.widget_calendar {
+				tfoot a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Categories
+			.widget_categories { color: $footer-font;
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Meta
+			.widget_meta {
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Menu
+			.widget_nav_menu {
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Pages
+			.widget_pages {
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Recent comments
+			.widget_recent_comments { color: $footer-font;
+				.comment-author-link { color: $footer-font; }
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Recent posts
+			.widget_recent_entries {
+				.post-date { color: $footer-font; }
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// RSS
+			.widget_rss {
+				.rss-date { color: $footer-font; }
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// Tagcloud
+			.widget_tag_cloud {
+				.tag-cloud-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+				.tag-link-count { color: $footer-font; }
+			}
+
+		// Lore
+
+			// Lore CTA
+			.lsvr-lore-cta-widget .widget__title { color: $dark-gray; }
+
+			// Lore KB Category
+			.lsvr-lore-kba-category-widget .widget__inner { border-color: rgba( $x-soft-gray, 0.1 ); }
+			.lsvr-lore-kba-category-widget__title { color: $footer-font; }
+			.lsvr-lore-kba-category-widget__title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); color: $footer-font; }
+			.lsvr-lore-kba-category-widget__item-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+
+		// LSVR
+
+			// LSVR Definition list
+			.lsvr-definition-list-widget__item-title,
+			.lsvr-definition-list-widget__item-text { color: $footer-font; border-color: rgba( $x-soft-gray, 0.1 ); }
+			.lsvr-definition-list-widget__item-text-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+
+			// LSVR Posts
+			.lsvr-post-list-widget__item-title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr-post-list-widget__item-date,
+			.lsvr-post-list-widget__item-category { color: $footer-font; }
+			.lsvr-post-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $footer-font); color: $footer-font; }
+
+			// LSVR Featured Project
+			.lsvr-post-featured-widget__title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr-post-featured-widget__date,
+			.lsvr-post-featured-widget__category { color: $footer-font; }
+			.lsvr-post-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $footer-font); color: $footer-font; }
+
+			// LSVR Category widget
+			.lsvr_kba-categories-widget,
+			.lsvr_faq-categories-widget {
+				a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			}
+
+			// LSVR KB Tree
+			.lsvr_kba-tree-widget__item-icon { color: $footer-font; }
+			.lsvr_kba-tree-widget__item-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr_kba-tree-widget__submenu-toggle { color: $footer-font; border-color: $footer-font; }
+			.lsvr_kba-tree-widget__submenu-toggle--active,
+			.lsvr_kba-tree-widget__submenu-toggle:hover { color: $footer-menu-link; background-color: $accent1; border-color: $footer-menu-link; }
+
+				// Current item
+				.lsvr_kba-tree-widget__item--current > .lsvr_kba-tree-widget__item-inner { background-color: transparent; border-color: transparent;
+					.lsvr_kba-tree-widget__item-icon { color: $footer-menu-link; }
+				}
+
+			.lsvr_kba-tree-widget__item-count { color: $footer-font; }
+
+			// LSVR KB Articles
+			.lsvr_kba-list-widget__item-icon { color: $footer-font; }
+			.lsvr_kba-list-widget__item-title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr_kba-list-widget__item-date { color: $footer-font; }
+			.lsvr_kba-list-widget__item-category { color: $footer-font; }
+			.lsvr_kba-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $footer-font ); color: $footer-font; }
+
+			// LSVR Featured KBA
+			.lsvr_kba-featured-widget__title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr_kba-featured-widget__date { color: $footer-font; }
+			.lsvr_kba-featured-widget__category { color: $footer-font; }
+			.lsvr_kba-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $footer-font ); color: $footer-font; }
+
+			// LSVR FAQ
+			.lsvr_faq-list-widget__item-title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr_faq-list-widget__item-category { color: $footer-font; }
+			.lsvr_faq-list-widget__item-category-link { @include link-decor( 1px, 2px, 1px, $footer-font ); color: $footer-font; }
+
+			// LSVR Featured FAQ
+			.lsvr_faq-featured-widget__title-link { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+			.lsvr_faq-featured-widget__category { color: $footer-font; }
+			.lsvr_faq-featured-widget__category-link { @include link-decor( 1px, 2px, 1px, $footer-font ); color: $footer-font; }
+
+    }
+
+	/* -------------------------------------------------------------------------
+        FOOTER BOTTOM
+    ------------------------------------------------------------------------- */
+
+    .footer-bottom { border-color: rgba( #FFF, 0.1 ); }
+    .footer-bottom a { color: $footer-menu-link }
+
+    	// Footer text
+    	.footer-text a { @include link-decor( 0, 2px, 1px, $footer-menu-link ); }
+
+    	// Scroll to top
+    	.footer-scroll-top:hover { color: $footer-font; }
+    	.footer-scroll-top:active { color: rgba( $footer-font, 0.8 ); }
+
+
+/* -----------------------------------------------------------------------------
+
+    7. ELEMENTS
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+		FAQ
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-faq__post { border-color: $x-soft-gray; }
+	.lsvr-lore-faq__post-permalink-link { @include link-decor(); }
+	.lsvr-lore-faq__post-footer { color: $gray; }
+	.lsvr-lore-faq__post-footer-permalink-link,
+	.lsvr-lore-faq__post-footer .post__term-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+	.lsvr-lore-faq__footer:before { border-color: $x-soft-gray; }
+	.lsvr-lore-faq__more { background-color: $core-bg; }
+
+		/* Expandable */
+		.lsvr-lore-faq--expandable {
+
+			.lsvr-lore-faq__post--expanded .lsvr-lore-faq__post-inner { border-color: $accent1; }
+			.lsvr-lore-faq__post-header-toggle-icon { color: $gray; }
+
+		}
+
+	/* -------------------------------------------------------------------------
+		KNOWLEDGE BASE
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-knowledge-base__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-knowledge-base__title,
+	.lsvr-lore-knowledge-base__header-more { background-color: $core-bg; }
+
+	/* -------------------------------------------------------------------------
+		POSTS
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-posts__post-meta { color: $gray; }
+	.lsvr-lore-posts .post__term-link { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+	.lsvr-lore-posts__post-title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+	.lsvr-lore-posts__post-permalink-link { @include link-decor( 1px, 2px, 1px ); }
+	.lsvr-lore-posts__footer:before { border-color: $x-soft-gray; }
+	.lsvr-lore-posts__more { background-color: $core-bg; }
+
+	/* -------------------------------------------------------------------------
+		SIDEBAR
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-sidebar__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-sidebar__title,
+	.lsvr-lore-sidebar__header-more { background-color: $core-bg; }
+	.lsvr-lore-sidebar--has-borders .widget__inner { border-color: $x-soft-gray; }
+
+	/* -------------------------------------------------------------------------
+		SITEMAP
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-sitemap__header:before { border-color: $x-soft-gray;  }
+	.lsvr-lore-sitemap__title,
+	.lsvr-lore-sitemap__header-more { background-color: $core-bg; }
+	.lsvr-lore-sitemap__item--level-0 > .lsvr-lore-sitemap__item-inner { border-color: $x-soft-gray; }
+	.lsvr-lore-sitemap__item-icon { color: $accent1; }
+	.lsvr-lore-sitemap__item-link { @include link-decor; }
+	.lsvr-lore-sitemap__item-title .lsvr-lore-sitemap__item-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+
+	/* -------------------------------------------------------------------------
+		TABLE OF CONTENTS
+	------------------------------------------------------------------------- */
+
+	.lsvr-lore-toc__title:before { border-color: $x-soft-gray; }
+	.lsvr-lore-toc__title-inner { background-color: $core-bg; }
+	.lsvr-lore-toc__item-link { @include link-decor; }
+
+	/* -------------------------------------------------------------------------
+		LSVR ELEMENTS
+	------------------------------------------------------------------------- */
+
+	// Alert message
+	.lsvr-alert-message { color: #265e88; background-color: #e1edf9; }
+	.lsvr-alert-message--warning { color: #d40041; background-color: #ffdfe0; }
+	.lsvr-alert-message--success { color: #499143; background-color: #d4fbd3; }
+
+    // Button
+	.lsvr-button { @include c-button; }
+
+    // Counter
+    .lsvr-counter__number { color: $accent1; }
+
+    // CTA
+    .lsvr-cta { border-color: $x-soft-gray; }
+    .lsvr-cta__button-link { @include c-button; }
+
+    // Feature
+    .lsvr-feature__icon { color: #FFF; background-color: $gray; }
+    .lsvr-feature__title-link { @include link-decor( 0, 2px, 1px, $dark-gray ); color: $dark-gray; }
+    .lsvr-feature__more-link { @include link-decor( 1px, 2px, 1px ); }
+
+    // Pricing table
+    .lsvr-pricing-table { border-color: $x-soft-gray; }
+    .lsvr-pricing-table__title { color: #FFF; background-color: $accent1; }
+    .lsvr-pricing-table__price-value { color: $accent1; }
+    .lsvr-pricing-table__price-description { color: $gray; }
+    .lsvr-pricing-table__text { border-color: $x-soft-gray; }
+    .lsvr-pricing-table__button-link { @include c-button; }
+
+    // Progress bar
+    .lsvr-progress-bar__bar { background-color: $x-soft-gray; }
+    .lsvr-progress-bar__bar-inner { background-color: $accent1; }
+
+
+/* -----------------------------------------------------------------------------
+
+    8. OTHER
+
+----------------------------------------------------------------------------- */
+
+	/* -------------------------------------------------------------------------
+        bbPRESS
+    ------------------------------------------------------------------------- */
+
+	// Login
+	.bbp-submit-wrapper button { @include c-button; }
+
+	// Notices
+	div.bbp-template-notice,
+	div.bbp-template-notice.info,
+	div.bbp-template-notice.important { color: #265e88; background-color: #e1edf9; }
+	div.bbp-template-notice.error { color: #d40041; background-color: #ffdfe0; }
+
+	div.bbp-template-notice a { @include link-decor( 0, 1px, 0 ); color: $body-link; }
+	div.bbp-template-notice a:hover { color: $body-link; }
+
+	#bbpress-forums {
+
+		// Subscribe toggle
+		#subscription-toggle { color: $x-soft-gray; }
+		#favorite-toggle .favorite-toggle,
+		#subscription-toggle .subscription-toggle { @include link-decor; }
+
+		// Tags
+		.bbp-topic-tags { color: $body-font; background-color: $x-soft-gray; }
+		.bbp-topic-tags a { @include link-decor( 0, 1px, 0, $body-font ); color: $body-font; }
+
+		// Wrapper
+		.bbp-forums,
+		.bbp-topics,
+		.bbp-replies { background-color: $core-bg; }
+
+		// Header
+		li.bbp-header { background-color: #FFF; border-color: $x-soft-gray; }
+		.forum-titles { color: $dark-gray; }
+
+		// Topic
+		div.bbp-topic-header { border-color: $x-soft-gray; background-color: transparent; }
+		li.bbp-body ul.forum,
+		li.bbp-body ul.topic { border-color: $x-soft-gray; }
+		div.odd,
+		ul.odd { background-color: transparent; }
+		.bbp-topic-meta a { @include link-decor( 0, 1px, 0 ); }
+		.bbp-forums-list { border-color: $x-soft-gray; }
+		.bbp-forum-title,
+		.bbp-topic-permalink { @include link-decor; }
+		.bbp-forum-link { @include link-decor( 0, 1px, 0 ); }
+		.bbp-topic-freshness a,
+		.bbp-forum-freshness a { @include link-decor( 0, 1px, 0 ); }
+
+		// Post
+		div.bbp-reply-header { border-color: $x-soft-gray; background-color: transparent; }
+		.bbp-reply-permalink { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+		.bbp-admin-links { color: $x-soft-gray; }
+		.bbp-admin-links a { @include link-decor( 0, 1px, 0, $gray ); color: $gray; }
+
+		// Author
+		div.bbp-forum-author a.bbp-author-name,
+		div.bbp-topic-author a.bbp-author-name,
+		div.bbp-reply-author a.bbp-author-name { @include link-decor; color: $body-link; }
+
+		// Forms
+		.bbp-reply-form,
+		.bbp-topic-form { background-color: $core-bg; }
+		form > fieldset.bbp-form > legend,
+		fieldset.bbp-form fieldset.bbp-form > legend { color: $dark-gray; }
+		.quicktags-toolbar { background-color: #FFF; border-color: $x-soft-gray; }
+
+		// Footer
+		li.bbp-footer { background-color: #FFF; border-color: $x-soft-gray; }
+
+		// Pagination
+		.bbp-pagination-count { color: $gray; }
+		.bbp-pagination .page-numbers.current { color: #FFF; background-color: $accent1; }
+		.bbp-pagination a.page-numbers:hover { background-color: $x-soft-gray; }
+		.bbp-pagination a.page-numbers:active { background-color: $xx-soft-gray; }
+
+		// User
+		#bbp-user-wrapper { background-color: $core-bg; }
+		#bbp-single-user-details #bbp-user-navigation li.current a { background-color: transparent; }
+		#bbp-single-user-details #bbp-user-navigation a,
+		#bbp-single-user-details #bbp-user-navigation li.current a { @include link-decor; }
+
+		// Profile edit
+		#bbp-your-profile {
+			fieldset input, fieldset textarea { color: $body-font; background-color: $x-soft-gray; }
+			fieldset input[type="file"] { background-color: transparent; }
+			#bbp_user_edit_submit { @include c-button; }
+			fieldset input:focus,
+			fieldset textarea:focus { border: 0; outline-color: transparent; }
+		}
+
+		// Search results
+		#bbp-search-results { background-color: #FFF; }
+
+		// Other
+		.status-closed,
+		.status-closed a { color: $gray; }
+
+	}
+
+	/* -------------------------------------------------------------------------
+        CONTACT FROM 7
+    ------------------------------------------------------------------------- */
+
+    div.wpcf7-response-output,
+	.wpcf7-response-output { @include c-alert-message; border: 0; }
+    .wpcf7-submit { @include c-button; }
+
+	/* -------------------------------------------------------------------------
+        MAGNIFIC POPUP
+    ------------------------------------------------------------------------- */
+
+	.mfp-image-holder .mfp-close, .mfp-iframe-holder .mfp-close,
+	.mfp-title, .mfp-counter { color: #FFF; }
+	.mfp-arrow:before { color: #FFF; }
+
+
+/* -----------------------------------------------------------------------------
+
+    9. RESPONSIVE
+
+----------------------------------------------------------------------------- */
+
+    /* -------------------------------------------------------------------------
+        LARGE DEVICES
+    ------------------------------------------------------------------------- */
+
+    @media ( max-width: 1199px ) {
+
+		// General
+		body { background-color: $core-bg; }
+
+		// Header
+		.header--expanded .header__inner { background-color: $header-navbar-scrolled-bg; }
+		.header__inner { padding-bottom: 0; }
+		.header-navbar--scrolled { background-color: transparent; }
+
+			// Navigation
+			.header-navbar__navigation { background-color: $header-navbar-scrolled-bg; border-color: rgba( #FFF, 0.07 ); }
+			.header-menu__item,
+			.header-menu__item--dropdown .header-menu__submenu .header-menu__item:first-child { border-color: rgba( #FFF, 0.07 ); }
+			.header-menu__item-link:hover { color: $header-font; background-color: $accent1; border-color: transparent; }
+			.current-menu-ancestor > .header-menu__item-link--level-0, .current-menu-parent > .header-menu__item-link--level-0,
+			.current-menu-item > .header-menu__item-link--level-0 { border-color: $accent1; }
+			.header-menu__item--megamenu .header-menu__submenu .header-menu__item-link,
+			.header-menu__item--megamenu .header-menu__submenu .header-menu__item-link:hover { box-shadow: none; }
+			.header-search { border-color: rgba( #FFF, 0.07 ); }
+
+	}
